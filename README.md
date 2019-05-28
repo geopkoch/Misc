@@ -1,2 +1,2 @@
 # Misc
-Miscellaneous project for random scripts
+Miscellaneous repo for random scripts
