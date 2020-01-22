@@ -7,7 +7,7 @@
 #################################################################################
 
 if (!require("pacman")) install.packages("pacman")
-p_load(dplyr,magrittr,tidyr,stringr,tidytext,RODBC,data.table)
+p_load(dplyr,magrittr,tidyr,stringr,tidytext,data.table)
 
 tokenize <- function(df, colname, sentiment.type = "afinn", sentimentremoved = "stopwords.sentimentremoved"){
   if (!require("pacman")) install.packages("pacman")
