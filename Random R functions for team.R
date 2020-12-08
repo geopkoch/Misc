@@ -202,11 +202,12 @@ do.cohen.d <- function(df1,df2,column1,column2) {
   cohen.d(mydata1,mydata2)
 }
 
-
+#function to run stepwise (forward or backward) regression, if you're so inclined.
 stepRegress <- function(df = NA,
                         target = "rating",
                         entry.method = "forward",
                         target.type = "binary") {
+  #TODO: get this working with an option to remove/leave highly correlated variables
   # set.seed(7)
   # if (remove.correlated == TRUE) {
   #   correlationMatrix <- cor(data[, 1:ncol(data)])
