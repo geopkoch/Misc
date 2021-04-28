@@ -1,2 +1,2 @@
 # Misc
-Miscellaneous repo for random scripts
+Miscellaneous repo for scripts not part of a particular project.
