@@ -6,11 +6,13 @@
 if (!require("pacman")) install.packages("pacman")
 p_load(dplyr,magrittr,tidyr,readr,stringr,RODBC,data.table,dummies,rpart,rpart.plot,caret)
 
-mypath <- "INTERNALPATH"
-
-mydata <- fread(paste0(mypath,"/petdata (cleaned).csv")) %>%
+mydata <- read.csv("https://raw.githubusercontent.com/geopkoch/Misc/master/PickYourPassion/petdata%20(cleaned).csv") %>%
   janitor::clean_names() %>%
   filter(animal_type_intake == "Dog") 
+
+#mydata <- fread(paste0(mypath,"/petdata (cleaned).csv")) %>%
+ # janitor::clean_names() %>%
+ # filter(animal_type_intake == "Dog") 
 
 #preserve master
 mydata.master <- mydata
