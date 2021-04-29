@@ -1,18 +1,22 @@
 #                                                                               
 #                          What matters in Austin pet adoptions?                  
 #                                                                               
+# Purpose: Generating monthly returning net reg forecasts using datarobot's model
+# Created by: Geoff Koch                                                        
+# Created on: 4/16/2021                                              
+# Validated by:                                               
+# Validated on:                                                      
 #Begin################################################################################
 
+source("P:/APUS_Corporate/Institutional Research/Data Team/Scripts/Common Code/R Scripts/Functions.R")
 if (!require("pacman")) install.packages("pacman")
-p_load(dplyr,magrittr,tidyr,readr,stringr,RODBC,data.table,dummies,rpart,rpart.plot,caret)
+p_load(dplyr,magrittr,tidyr,readr,stringr,RODBC,dummies,rpart,rpart.plot,caret)
+
 
 mydata <- read.csv("https://raw.githubusercontent.com/geopkoch/Misc/master/PickYourPassion/Pets/petdata%20(cleaned).csv") %>%
   janitor::clean_names() %>%
   filter(animal_type_intake == "Dog") 
 
-#mydata <- fread(paste0(mypath,"/petdata (cleaned).csv")) %>%
- # janitor::clean_names() %>%
- # filter(animal_type_intake == "Dog") 
 
 #preserve master
 mydata.master <- mydata
@@ -105,13 +109,25 @@ pROC::roc(isadopted.pred$actual ~ isadopted.pred$pred,plot=TRUE,print.auc=TRUE,c
 #is adopted?
 tree.isadopt <- rpart(is_adopted_or_rto ~ ., data = mydata.isadopt, method = "anova", control = rpart.control(minsplit=100, cp=0.001, xval = 10))
 
-rpart.plot(tree.isadopt, box.palette = "OrBu")
+rpart.plot(tree.isadopt, 
+           box.palette = "OrBu",
+           type = 4,
+           varlen = -5,
+           main = "What factors impact the incidence of dog adoption?",
+           sub = "Austin, TX animal shelter intakes from October 2013 through 2017. 
+           More here: https://www.kaggle.com/aaronschlegel/austin-animal-center-shelter-intakes-and-outcomes")
 
 
 #tree to see who is adopted of only normal intake
 tree.isadopt.normal <- rpart(is_adopted_or_rto ~ ., data = mydata.isadopt.normal, method = "anova", control = rpart.control(minsplit=100, cp=0.001, xval = 10))
 
-rpart.plot(tree.isadopt.normal, box.palette = "OrBu")
+rpart.plot(tree.isadopt.normal,
+           box.palette = "OrBu",
+           type = 4,
+           varlen = -5,
+           main = "What factors impact the incidence of dog adoption for 'normal' intakes?",
+           sub = "Austin, TX animal shelter intakes from October 2013 through 2017. 
+           More here: https://www.kaggle.com/aaronschlegel/austin-animal-center-shelter-intakes-and-outcomes")
 
 #rattle::fancyRpartPlot(tree.isadopt.normal,main = sprintf("Dogs Adopted"), caption = paste0("Prepared by ",Sys.getenv("USERNAME")," on ",Sys.Date(),"explaining dog adoption."))
 
@@ -119,7 +135,12 @@ rpart.plot(tree.isadopt.normal, box.palette = "OrBu")
 #tree for all that have already been adopted. target is length of time (multi class)
 tree.adoptedlength <- rpart(days_length ~ ., data = mydata.length, method = "class", control = rpart.control(minsplit=100, cp=0.001))
 
-rpart.plot(tree.adoptedlength, box.palette = "OrBu")
-
-
+rpart.plot(tree.adoptedlength, 
+           box.palette = "OrBu",
+           type = 4,
+           varlen = -5,
+           main = "What factors impact the length to adoption for dogs?",
+           sub = "Austin, TX animal shelter intakes from October 2013 through 2017.
+           More here: https://www.kaggle.com/aaronschlegel/austin-animal-center-shelter-intakes-and-outcomes",
+           cex.sub = .6)
 
