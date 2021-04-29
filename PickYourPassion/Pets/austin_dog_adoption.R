@@ -6,7 +6,7 @@
 if (!require("pacman")) install.packages("pacman")
 p_load(dplyr,magrittr,tidyr,readr,stringr,RODBC,data.table,dummies,rpart,rpart.plot,caret)
 
-mydata <- read.csv("https://raw.githubusercontent.com/geopkoch/Misc/master/PickYourPassion/petdata%20(cleaned).csv") %>%
+mydata <- read.csv("https://raw.githubusercontent.com/geopkoch/Misc/master/PickYourPassion/Pets/petdata%20(cleaned).csv") %>%
   janitor::clean_names() %>%
   filter(animal_type_intake == "Dog") 
 
